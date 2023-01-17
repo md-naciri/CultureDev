@@ -1,6 +1,8 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -68,7 +70,19 @@
                 <div class="col-md-6 right-side">
                     <div class="input-box">
                         <div class="catchy-txt-2">
-                            <p>“We Believe In Code”</p>
+                            <?php
+                            if (isset($_SESSION["userid"])) {
+                            ?>
+                                <a style="text-decoration: none;" href="inc/logout.inc.php">
+                                    <p>“We Believe In Code”</p>
+                                </a>
+                            <?php
+                            } else {
+                            ?>
+                                <p>“Code Connects Us”</p>
+                            <?php
+                            };
+                            ?>
                         </div>
                         <header class="mb-4">Welcome back</header>
                         <form action="inc/login.inc.php" method="post">

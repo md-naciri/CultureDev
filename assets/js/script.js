@@ -1,5 +1,22 @@
+// $(document).ready(function () {
+//     $(".row-sign").hide();
+//     $("#go-sign").click(function () {
+//         $(".row-log").hide();
+//         $(".row-sign").fadeToggle(300);
+//     })
+//     $("#go-log").click(function () {
+//         $(".row-sign").hide();
+//         $(".row-log").fadeToggle(300);
+//     })
+// });
+
 $(document).ready(function () {
-    $(".row-sign").hide();
+    if (session.error) {
+        $(".row-log").hide();
+        $(".row-sign").show();
+    } else {
+        $(".row-sign").hide();
+    }
     $("#go-sign").click(function () {
         $(".row-log").hide();
         $(".row-sign").fadeToggle(300);
@@ -10,4 +27,6 @@ $(document).ready(function () {
     })
 });
 
-
+$(document).ready(function () {
+    $('#dtables').DataTable();
+});

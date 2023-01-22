@@ -1,7 +1,7 @@
 <?php
 
 class Signup extends Db {
-// Sign i  , register , ctegories , articls ... tags
+
     protected function setUser($fname, $email, $pwd){
         $stmt = $this->connect()->prepare('INSERT INTO user (full_name, email, password) VALUES (?, ?, ?);');
         $stmt->bindValue(1, $fname, PDO::PARAM_STR);

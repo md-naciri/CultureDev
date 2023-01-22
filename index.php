@@ -3,6 +3,7 @@ session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,17 +12,17 @@ session_start();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="shortcut icon" href="assets/img/browser.png" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <title>CultureDev</title>
 </head>
 
 <body>
+    <script> var session = <?php echo json_encode($_SESSION); ?>; </script>
     <div class="wrapper">
         <div class="container main">
-
-            <div class="row row-sign row-focus">
+            <div class="bg-row row row-sign row-focus">
                 <div class="col-md-6 left-side">
                     <img src="assets/img/justwhite.png" alt="">
                     <div class="catchy-txt">
@@ -34,6 +35,16 @@ session_start();
                             <p>“Code Connects Us”</p>
                         </div>
                         <header class="mb-4">Create account</header>
+                        <?php if (isset($_SESSION["error"])) : ?>
+                            <div class="alert alert-green alert-dismissible fade show">
+                                <strong>Wait!</strong>
+                                <?php
+                                echo $_SESSION["error"];
+                                unset($_SESSION["error"]);
+                                ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
+                            </div>
+                        <?php endif ?>
                         <form action="inc/signup.inc.php" method="post">
                             <div class="input-field">
                                 <input type="text" class="input mb-3" name="fname" id="fullname" required>
@@ -59,8 +70,7 @@ session_start();
                     </div>
                 </div>
             </div>
-
-            <div class="row row-log row-focus">
+            <div class="bg-row row row-log row-focus">
                 <div class="col-md-6 left-side">
                     <img src="assets/img/justwhite.png" alt="">
                     <div class="catchy-txt">
@@ -108,9 +118,7 @@ session_start();
             </div>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="assets/js/script.js"></script>
-
 </body>
-
 </html>

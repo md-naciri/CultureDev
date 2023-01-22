@@ -36,7 +36,7 @@ session_start();
                         </div>
                         <header class="mb-4">Create account</header>
                         <?php if (isset($_SESSION["error"])) : ?>
-                            <div class="alert alert-green alert-dismissible fade show">
+                            <div class="alert alert-danger alert-dismissible fade show">
                                 <strong>Wait!</strong>
                                 <?php
                                 echo $_SESSION["error"];

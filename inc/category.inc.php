@@ -10,13 +10,13 @@ if (isset($_POST["addC"])) {
 if (isset($_POST["deleteC"])) {
     $id = $_POST["deletedC"];
     $deleteCategory = new Db();
-    $deleteCategory->delete("category", $id);
+    $deleteCategory->delete("category", "idC = $id", "article");
     header("location: ../category.php");
 }
 if (isset($_POST["editC"])) {
     $id = $_POST["editedC"];
     $name = $_POST["namedC"];
     $updateCategory = new Db();
-    $updateCategory->update("category", ['name' => $name], $id);
+    $updateCategory->update("category", ['name' => $name], "idC = $id");
     header("location: ../category.php");
 }

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "./classes/db.class.php";
 $showCategory = new Db();
 $data = $showCategory->select("category", "*", null);
@@ -29,7 +30,7 @@ $data = $showCategory->select("category", "*", null);
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="#">Categories</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Statistics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard.php">Statistics</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#articleModal">Article</a></li>
                 </ul><button class="btn bg-white me-3" type="button" data-bs-toggle="modal" data-bs-target="#articleModal">Add an article</button><button class="btn btn-dark" type="button">Log Out</button>
             </div>
@@ -39,13 +40,23 @@ $data = $showCategory->select("category", "*", null);
 
 
     <div style="background-color: white;" class="container col-md-6 mx-auto mt-5 rounded p-4">
+        <?php if (isset($_SESSION["error"])) : ?>
+            <div class="alert alert-danger alert-dismissible fade show">
+                <strong>Wait!</strong>
+                <?php
+                echo $_SESSION["error"];
+                unset($_SESSION["error"]);
+                ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
+            </div>
+        <?php endif ?>
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Add a category</h1>
         </div>
         <form class="p-4" action="inc/category.inc.php" method="post">
             <!-- name input -->
             <div class="form-outline mb-4 d-flex">
-                <input type="text" id="form4Example1" name="addedC" class="form-control" placeholder="Add a category" />
+                <input type="text" id="form4Example1" name="addedC" class="form-control" placeholder="Add a category" required />
                 <button type="submit" name="addC" class="btn btn-sm btn-primary rounded m-1"> Add </button>
             </div>
         </form>
@@ -65,35 +76,9 @@ $data = $showCategory->select("category", "*", null);
                                 <?= $nameC["name"] ?></td>
                             <form action="inc/category.inc.php" method="post">
                                 <td>
-                                    <input type="hidden" name="deletedC" value="<?= $nameC["id"] ?>">
-                                    <button type="button" class="btn btn-sm btn-secondary rounded mt-2 mb-2" data-bs-toggle="modal" data-bs-target="#<?= $idf = $nameC["name"] . $nameC["id"] ?>">Update</button>
+                                    <input type="hidden" name="deletedC" value="<?= $nameC["idC"] ?>">
+                                    <button onclick="getCdata(<?= $nameC['idC'] ?>,`<?= $nameC['name'] ?>`)" type="button" class="btn btn-sm btn-secondary rounded mt-2 mb-2" data-bs-toggle="modal" data-bs-target="#cModal">Update</button>
                                     <button name="deleteC" type="submit" class="btn btn-sm btn-danger mb-2 mt-2 rounded">Delete</button>
-
-
-                                    <!-- Modal -->
-                                    <form action="inc/category.inc.php" method="post">
-                                        <div class="modal fade" id="<?= $idf ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit the category</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <input type="hidden" name="editedC" value="<?= $nameC["id"] ?>">
-                                                        <input type="text" id="nameC" name="namedC" class="form-control" placeholder="Enter new category name" value="<?= $nameC["name"] ?>" />
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" name="editC" class="btn btn-primary">Save</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-
-
-
                                 </td>
                             </form>
                         </tr>
@@ -103,7 +88,27 @@ $data = $showCategory->select("category", "*", null);
         </div>
     </div>
 
-
+    <!-- Modal -->
+    <form action="inc/category.inc.php" method="post">
+        <div class="modal fade" id="cModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit the category</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editedC" name="editedC">
+                        <input type="text" id="nameC" name="namedC" class="form-control" placeholder="Enter new category name" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" name="editC" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
     <!-- <div class="row row-sign row-focus">
                 <div class="col-md-6 left-side"></div>

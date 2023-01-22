@@ -7,7 +7,12 @@ if (!isset($_SESSION["userid"])) {
 include "./classes/db.class.php";
 $show = new Db();
 $dataC = $show->select("category", "*", null);
-$dataA = $show->select("article", "*", null);
+$dataA = $show->select("article, category, user", "*", "author_id = user.idD and category_id = category.idC");
+$countA = $show->count("article", null);
+$countC = $show->count("category", null);
+$countD = $show->count("user", null);
+$countAD = $show->count("article", "author_id");
+
 ?>
 
 <!DOCTYPE html>
@@ -46,31 +51,40 @@ $dataA = $show->select("article", "*", null);
     </nav>
 
     <div class="row h-auto mx-auto d-flex col-md-8 my-2 mt-5">
-        <div class="col-md-4 col-sm-8 mx-auto">
+        <div class="col-md-3 col-sm-8 mx-auto">
             <div class="p-3 bg-white shadow text-center">
                 <div>
-                    <h3 class="fs-3">7546</h3>
-                    <p class="fs-5">Articls</p>
+                    <h3 class="fs-3"><?= $countA ?></h3>
+                    <p class="fs-5">Articles</p>
                 </div>
                 <!-- <i class="fa fa-chart-line fs-1 text-primary border rounded-full secondary-bg p-3"></i> -->
             </div>
         </div>
-        <div class="col-md-4 col-sm-8 mx-auto">
+        <div class="col-md-3 col-sm-8 mx-auto">
             <div class="p-3 bg-white shadow text-center">
                 <div>
-                    <h3 class="fs-3">30</h3>
+                    <h3 class="fs-3"><?= $countC ?></h3>
                     <p class="fs-5">Categories</p>
                 </div>
                 <!-- <i class="fa fa-hand-holding fs-1 text-primary border rounded-full secondary-bg p-3"></i> -->
             </div>
         </div>
-        <div class="col-md-4 col-sm-8 mx-auto">
+        <div class="col-md-3 col-sm-8 mx-auto">
             <div class="p-3 bg-white shadow text-center">
                 <div>
-                    <h3 class="fs-3">135</h3>
+                    <h3 class="fs-3"><?= $countD ?></h3>
                     <p class="fs-5">Developers</p>
                 </div>
                 <!-- <i class="fa fa-gift fs-1 text-primary border rounded-full secondary-bg p-3"></i> -->
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-8 mx-auto">
+            <div class="p-3 bg-white shadow text-center">
+                <div>
+                    <h3 class="fs-3"><?= $countAD ?></h3>
+                    <p class="fs-5">Active Developers</p>
+                </div>
+                <!-- <i class="fa fa-hand-holding fs-1 text-primary border rounded-full secondary-bg p-3"></i> -->
             </div>
         </div>
     </div>
@@ -89,19 +103,22 @@ $dataA = $show->select("article", "*", null);
             <tbody>
                 <?php foreach ($dataA as $article) { ?>
                     <tr>
-                        <!-- class="avatar avatar-xxl me-3" -->
-                        <td><img src="assets/img/uploaded_img/<?= $article["pic"] ?>" class="img-thumbnail" alt="Article image"></td>
-                        <td><?= $article["author_id"] ?></td>
-                        <td><?= $article["category_id"] ?></td>
-                        <td><?= $article["title"] ?></td>
-                        <td><?= $article["content"] ?></td>
-                        <form action="inc/article.inc.php" method="post">
+                        <form action="editArticle.php" method="post">
+                            <td><img style="max-width: 150px;" src="assets/img/uploaded_img/<?= $article["pic"] ?>" class="img-thumbnail" alt="Article image"></td>
+                            <td><?= $article["full_name"] ?></td>
+                            <td><?= $article["name"] ?></td>
+                            <td><?= $article["title"] ?></td>
+                            <td><?= $article["content"] ?></td>
                             <td>
-                                <input type="hidden" name="deletedA" value="<?= $article["id"] ?>">
-                                <button type="button" class="btn btn-sm btn-secondary rounded mt-2 mb-2">Update</button>
-                                <button name="deleteA" type="submit" class="btn btn-sm btn-danger mb-2 mt-2 rounded">Delete</button>
-                            </td>
+                                <input type="hidden" name="idA" value="<?= $article["idA"] ?>">
+                                <button name="editA" type="submit" class="btn btn-sm btn-secondary rounded mt-2 mb-2">Update</button>
                         </form>
+                        <form action="inc/article.inc.php" method="post">
+                            <input type="hidden" name="idA" value="<?= $article["idA"] ?>">
+                            <button name="deleteA" type="submit" class="btn btn-sm btn-danger mb-2 mt-2 rounded">Delete</button>
+                        </form>
+                        </td>
+
                     </tr>
                 <?php } ?>
             </tbody>
@@ -129,7 +146,7 @@ $dataA = $show->select("article", "*", null);
                         <select name="choice" class="form-select" aria-label="Default select example">
                             <option selected>Choose a category</option>
                             <?php foreach ($dataC as $nameC) { ?>
-                                <option value="<?= $nameC["id"] ?>"><?= $nameC["name"] ?></option>
+                                <option value="<?= $nameC["idC"] ?>"><?= $nameC["name"] ?></option>
                             <?php } ?>
                         </select>
                     </div>

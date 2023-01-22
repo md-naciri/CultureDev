@@ -44,7 +44,7 @@ class Db
         }
         else {
             $stmt = $this->connect()->prepare("SELECT COUNT(*) FROM $a WHERE category_id=?");
-            $stmt->execute([$id]);
+            $stmt->execute([filter_var($id, FILTER_SANITIZE_NUMBER_INT)]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             if($result['COUNT(*)']>0){
                 session_start();

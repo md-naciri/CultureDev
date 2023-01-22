@@ -1,3 +1,15 @@
+<?php
+session_start();
+if (!isset($_SESSION["userid"])) {
+    header("location: index.php");
+    die;
+}
+include "./classes/db.class.php";
+$show = new Db();
+$dataC = $show->select("category", "*", null);
+$dataA = $show->select("article", "*", null);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,16 +29,18 @@
     <title>CultureDev</title>
 </head>
 
-<body>
+<body style="background-color: #eee;">
     <nav class="navbar navbar-dark navbar-expand-md sticky-top py-2">
-        <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><span><img src="assets/img/whitelogo.png" alt=""></span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><span><img src="assets/img/whiteblack.png" alt=""></span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle
                     navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#categoryModal">Categories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="category.php">Categories</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Statistics</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#articleModal">Article</a></li>
-                </ul><button class="btn bg-white me-3" type="button" data-bs-toggle="modal" data-bs-target="#articleModal">Add an article</button><button class="btn btn-dark" type="button">Log Out</button>
+                </ul>
+                <button class="btn bg-white me-3" type="button" data-bs-toggle="modal" data-bs-target="#articleModal">Add an article</button>
+                <a href="inc/logout.inc.php" class="btn btn-dark" type="button">Log Out</a>
             </div>
         </div>
     </nav>
@@ -64,35 +78,32 @@
         <table id="dtables" class="table ">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    <th>Picture</th>
                     <th>Author</th>
+                    <th>Category</th>
                     <th>Title</th>
                     <th>Article</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Clark</td>
-                    <td>And this is the title</td>
-                    <td>Web development is the process of creating, building, and maintaining websites. It involves a combination of programming languages, frameworks, and tools that are used to build and optimize web applications.</td>
-                    <td>Action here</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Peter</td>
-                    <td>And this is the title</td>
-                    <td>Web development is the process of creating, building, and maintaining websites. It involves a combination of programming languages, frameworks, and tools that are used to build and optimize web applications.</td>
-                    <td>Action here</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>John</td>
-                    <td>And this is the title</td>
-                    <td>Web development is the process of creating, building, and maintaining websites. It involves a combination of programming languages, frameworks, and tools that are used to build and optimize web applications.</td>
-                    <td>Action here</td>
-                </tr>
+                <?php foreach ($dataA as $article) { ?>
+                    <tr>
+                        <!-- class="avatar avatar-xxl me-3" -->
+                        <td><img src="assets/img/uploaded_img/<?= $article["pic"] ?>" class="img-thumbnail" alt="Article image"></td>
+                        <td><?= $article["author_id"] ?></td>
+                        <td><?= $article["category_id"] ?></td>
+                        <td><?= $article["title"] ?></td>
+                        <td><?= $article["content"] ?></td>
+                        <form action="inc/article.inc.php" method="post">
+                            <td>
+                                <input type="hidden" name="deletedA" value="<?= $article["id"] ?>">
+                                <button type="button" class="btn btn-sm btn-secondary rounded mt-2 mb-2">Update</button>
+                                <button name="deleteA" type="submit" class="btn btn-sm btn-danger mb-2 mt-2 rounded">Delete</button>
+                            </td>
+                        </form>
+                    </tr>
+                <?php } ?>
             </tbody>
         </table>
     </div>
@@ -106,80 +117,43 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Write an article</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="p-4">
+                <form action="inc/article.inc.php" method="post" enctype="multipart/form-data" class="p-4">
                     <!-- title input -->
                     <div class="form-outline mb-4">
-                        <input type="text" id="form4Example1" class="form-control" placeholder="title" />
+                        <input type="text" name="titledA" class="form-control" placeholder="Web development" />
                     </div>
+                    <!-- author input -->
+                    <input type="hidden" name="authorA" class="form-control" value="<?= $_SESSION["userid"] ?>" />
                     <!-- category input -->
                     <div class="form-outline mb-4">
-                        <select class="form-select" aria-label="Default select example">
+                        <select name="choice" class="form-select" aria-label="Default select example">
                             <option selected>Choose a category</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            <?php foreach ($dataC as $nameC) { ?>
+                                <option value="<?= $nameC["id"] ?>"><?= $nameC["name"] ?></option>
+                            <?php } ?>
                         </select>
                     </div>
-                    <!-- article input -->
+                    <!-- picture input -->
                     <div class="form-outline mb-4">
-                        <textarea class="form-control" id="form4Example3" rows="9" placeholder="Web development is the process of creating, building, and maintaining websites. It involves a combination of programming languages, frameworks, and tools that are used to build and optimize web applications."></textarea>
+                        <input type="file" name="photoA" class="form-control" accept=".jpg,.png,.jpeg" />
                     </div>
                     <!-- Submit button -->
+                    <!-- article input -->
+                    <div class="form-outline mb-4">
+                        <textarea class="form-control" name="textA" id="form4Example3" rows="9" placeholder="Web development is the process of creating, building, and maintaining websites. It involves a combination of programming languages, frameworks, and tools that are used to build and optimize web applications."></textarea>
+                    </div>
+                    <!-- Submit button -->
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" name="addA" class="btn btn-primary">Add an article</button>
+                    </div>
                 </form>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add a category</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form class="p-4">
-                    <!-- name input -->
-                    <div class="form-outline mb-4 d-flex">
-                        <input type="text" id="form4Example1" class="form-control" placeholder="Add a category" />
-                        <button type="submit" class="btn btn-sm btn-primary rounded m-1"> Add </button>
-                    </div>
-                    <!-- categories list -->
-                    <div class="form-outline mb-4">
-                        <table id="dtables" class="table ">
-                            <thead>
-                                <tr>
-                                    <th>Category list</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Web development</td>
-                                    <td><button type="submit" class="btn btn-sm btn-secondary rounded mt-2 mb-2">Update</button>
-                                    <button name="deleteProduct" type="submit" class="btn btn-sm btn-danger mb-2 mt-2 rounded">Delete</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Mobile development</td>
-                                    <td><button type="submit" class="btn btn-sm btn-secondary rounded mt-2 mb-2">Update</button>
-                                    <button name="deleteProduct" type="submit" class="btn btn-sm btn-danger mb-2 mt-2 rounded">Delete</button></td>
-                                </tr>
-                            <tbody>
-                        </table>
-                    </div>
-                    <!-- Submit button -->
-                </form>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- <div class="row row-sign row-focus">
                 <div class="col-md-6 left-side"></div>
                 <div class="col-md-6 right-side"></div>

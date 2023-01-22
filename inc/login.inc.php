@@ -9,7 +9,7 @@ if(isset($_POST["submit"])){
     include "../classes/logincontr.class.php";
     $login = new LoginContr($email, $pwd);
     $login->loginUser();
-    header("location: ../index.php?error=none");
+    header("location: ../dashboard.php");
 }
 
 ?>

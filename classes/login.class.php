@@ -20,7 +20,7 @@ class Login extends Db {
             $stmt->execute([$email]);
             $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
             session_start();
-            $_SESSION["userid"] = $user[0]["id"];
+            $_SESSION["userid"] = $user[0]["idD"];
             $_SESSION["username"] = $user[0]["full_name"];
             return true;
         } catch (Exception $e) {

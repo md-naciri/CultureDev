@@ -30,3 +30,9 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#dtables').DataTable();
 });
+
+function getCdata(id, name){
+    document.getElementById('editedC').value = id;
+    document.getElementById('nameC').value = name;
+}
+

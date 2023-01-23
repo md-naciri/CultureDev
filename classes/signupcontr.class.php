@@ -16,15 +16,15 @@ class SignupContr extends Signup {
     public function signupUser()
     {
         if($this->emptyInput() == false){
-            $_SESSION["error"] = "Empty input!";
+            $_SESSION["serror"] = "Empty input!";
             return false;
         }
         if($this->invalidFname() == false){
-            $_SESSION["error"] = "Invalid name!";
+            $_SESSION["serror"] = "Invalid name!";
             return false;
         }
         if($this->invalidEmail() == false){
-            $_SESSION["error"] = "Invalid Email!";
+            $_SESSION["serror"] = "Invalid Email!";
             return false;
         }
         if($this->existUser() == false){
@@ -60,7 +60,7 @@ class SignupContr extends Signup {
     private function existUser()
     {
         if(!$this->checkUserExist($this->fname, $this->email)) {
-            $_SESSION["error"] = "Username or Email Taken!";
+            $_SESSION["serror"] = "Username or Email Taken!";
             return false;
         }
         return true;

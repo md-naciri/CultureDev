@@ -1,19 +1,17 @@
 <?php
-
-class Login extends Db {
-
+class Login extends Db{
     public function getUser($email, $pwd) {
         try {
             $stmt = $this->connect()->prepare('SELECT password FROM user WHERE email = ?');
             $stmt->execute([$email]);
 
             if ($stmt->rowCount() == 0) {
-                throw new Exception("User not found.");
+                throw new Exception("User not found!");
             }
 
             $hashed = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if (!password_verify($pwd, $hashed[0]["password"])) {
-                throw new Exception("Wrong password.");
+                throw new Exception("Wrong password!");
             }
 
             $stmt = $this->connect()->prepare('SELECT * FROM user WHERE email = ?');

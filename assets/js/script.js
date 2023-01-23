@@ -9,9 +9,8 @@
 //         $(".row-log").fadeToggle(300);
 //     })
 // });
-
 $(document).ready(function () {
-    if (session.error) {
+    if (session.serror) {
         $(".row-log").hide();
         $(".row-sign").show();
     } else {
@@ -29,6 +28,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('#dtables').DataTable();
+    $('#dtables').parent().css( "overflow-x", "scroll" );
 });
 
 function getCdata(id, name) {

@@ -7,7 +7,10 @@ if (!isset($_SESSION["userid"])) {
 include "./classes/db.class.php";
 $show = new Db();
 $dataC = $show->select("category", "*", null);
-$dataA = $show->select("article", "*", "idA = ".$_POST["idA"]);
+if (isset($_POST['idA'])) {
+    $_SESSION['id1'] = $_POST['idA'];
+}
+$dataA = $show->select("article", "*", "idA = " . $_SESSION['id1']);
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +34,7 @@ $dataA = $show->select("article", "*", "idA = ".$_POST["idA"]);
 
 <body style="background-color: #eee;">
     <nav class="navbar navbar-dark navbar-expand-md sticky-top py-2">
-        <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><span><img src="assets/img/whiteblack.png" alt=""></span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="dashboard.php"><span><img src="assets/img/whiteblack.png" alt=""></span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle
                     navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav me-auto">
@@ -50,17 +53,28 @@ $dataA = $show->select("article", "*", "idA = ".$_POST["idA"]);
 
 
     <div style="background-color: white;" class="container col-md-6 mx-auto mt-5 rounded p-4">
+        <?php if (isset($_SESSION["error"])) : ?>
+            <div class="alert alert-danger alert-dismissible fade show">
+                <strong>Wait!</strong>
+                <?php
+                echo $_SESSION["error"];
+                unset($_SESSION["error"]);
+                ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
+            </div>
+        <?php endif ?>
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Edit an article</h1>
         </div>
+        <b id="error" class="d-none text-center text-danger fs-2"></b>
         <form action="inc/article.inc.php" method="post" enctype="multipart/form-data" class="p-4">
             <input type="hidden" name="idA" value="<?= $dataA[0]['idA'] ?>">
             <!-- title input -->
             <div class="form-outline mb-4">
-                <input type="text" name="titledA" class="form-control" value="<?= $dataA[0]['title']; ?>" />
+                <input id="titledA" type="text" name="titledA" class="form-control" value="<?= $dataA[0]['title']; ?>" />
             </div>
             <!-- author input -->
-            <input type="hidden" name="authorA" class="form-control" value="<?= $_SESSION["userid"] ?>" />
+            <input type="hidden" id="authorA" name="authorA" class="form-control" value="<?= $_SESSION["userid"] ?>" />
             <!-- category input -->
             <div class="form-outline mb-4">
                 <select name="choice" class="form-select" aria-label="Default select example">
@@ -71,32 +85,41 @@ $dataA = $show->select("article", "*", "idA = ".$_POST["idA"]);
             </div>
             <!-- picture input -->
             <div class="form-outline mb-4">
-                <input type="file" name="photoA" class="form-control" accept=".jpg,.png,.jpeg" />
+                <input type="file" id="photoA" name="photoA" class="form-control" accept=".jpg,.png,.jpeg" />
             </div>
 
             <!-- article input -->
             <div class="form-outline mb-4">
-                <textarea class="form-control" name="textA" id="form4Example3" rows="9"><?= $dataA[0]['content']; ?></textarea>
+                <textarea class="form-control" id="textA" name="textA" id="form4Example3" rows="9"><?= $dataA[0]['content']; ?></textarea>
             </div>
             <!-- Submit button -->
 
             <div class="modal-footer">
                 <a href="dashboard.php" type="button" class="btn btn-secondary">Close</a>
-                <button type="submit" name="editA" class="btn btn-primary">Save Edit</button>
+                <button type="submit" id="editA" name="editA" class="ms-2 btn btn-primary">Save Edit</button>
             </div>
         </form>
     </div>
 
 
-
-    <!-- <div class="row row-sign row-focus">
-                <div class="col-md-6 left-side"></div>
-                <div class="col-md-6 right-side"></div>
-            </div> -->
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="assets/js/script.js"></script>
-
+    <script>
+        let titledA = document.querySelector("#titledA");
+        let textA = document.querySelector("#textA");
+        
+        if(document.querySelector("#editA")){
+            document.querySelector("#editA").addEventListener('click',(e)=>{              
+            if(textA.value==""  || titledA.value==""){
+                document.querySelector("#error").classList.remove('d-none')
+                document.querySelector("#error").textContent="Wa zmar You must fill all inputs";
+                e.preventDefault();
+             }
+        })
+        }
+        
+        
+    </script>
 </body>
 
 </html>

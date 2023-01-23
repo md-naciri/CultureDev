@@ -2,16 +2,18 @@
 include "../classes/db.class.php";
 
 if (isset($_POST["addA"])) {
-    $title = $_POST["titledA"];
-    $pic = $_FILES['photoA']['name'];
-    $target = "../assets/img/uploaded_img/" . $pic;
-    $content = $_POST["textA"];
-    $catID = $_POST["choice"];
-    $autID = $_POST["authorA"];
-    $addArticle = new Db();
-    $addArticle->insert("article", ['title'=>$title, 'pic'=>$pic, 'content'=>$content, 'category_id'=> $catID, 'author_id'=>$autID]);
-    move_uploaded_file($_FILES['photoA']['tmp_name'],$target);
-    header("location: ../dashboard.php");
+    for ($i = 0; $i< count($_POST['titledA']); $i++){
+        $title = $_POST["titledA"][$i];
+        $pic = $_FILES['photoA']['name'][$i];
+        $target = "../assets/img/uploaded_img/" . $pic;
+        $content = $_POST["textA"][$i];
+        $catID = $_POST["choice"][$i];
+        $autID = $_POST["authorA"][$i];
+        $addArticle = new Db();
+        $addArticle->insert("article", ['title'=>$title, 'pic'=>$pic, 'content'=>$content, 'category_id'=> $catID, 'author_id'=>$autID]);
+        move_uploaded_file($_FILES['photoA']['tmp_name'][$i],$target);
+        header("location: ../dashboard.php");
+    }
 }
 if (isset($_POST["deleteA"])) {
     $id = $_POST["idA"];

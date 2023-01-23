@@ -42,9 +42,9 @@ $countAD = $show->count("article", "author_id");
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="category.php">Categories</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Statistics</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#articleModal">Article</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Article</a></li>
                 </ul>
-                <button class="btn bg-white me-3" type="button" data-bs-toggle="modal" data-bs-target="#articleModal">Add an article</button>
+                <button onclick="hideDynamicForm()" class="btn bg-white me-3" type="button" data-bs-toggle="modal" data-bs-target="#articleModal">Add an article</button>
                 <a href="inc/logout.inc.php" class="btn btn-dark" type="button">Log Out</a>
             </div>
         </div>
@@ -137,13 +137,13 @@ $countAD = $show->count("article", "author_id");
                 <form action="inc/article.inc.php" method="post" enctype="multipart/form-data" class="p-4">
                     <!-- title input -->
                     <div class="form-outline mb-4">
-                        <input type="text" name="titledA" class="form-control" placeholder="Web development" />
+                        <input type="text" name="titledA[]" class="form-control" placeholder="Web development" />
                     </div>
                     <!-- author input -->
-                    <input type="hidden" name="authorA" class="form-control" value="<?= $_SESSION["userid"] ?>" />
+                    <input type="hidden" name="authorA[]" class="form-control" value="<?= $_SESSION["userid"] ?>" />
                     <!-- category input -->
                     <div class="form-outline mb-4">
-                        <select name="choice" class="form-select" aria-label="Default select example">
+                        <select name="choice[]" class="form-select" aria-label="Default select example">
                             <option selected>Choose a category</option>
                             <?php foreach ($dataC as $nameC) { ?>
                                 <option value="<?= $nameC["idC"] ?>"><?= $nameC["name"] ?></option>
@@ -152,17 +152,22 @@ $countAD = $show->count("article", "author_id");
                     </div>
                     <!-- picture input -->
                     <div class="form-outline mb-4">
-                        <input type="file" name="photoA" class="form-control" accept=".jpg,.png,.jpeg" />
+                        <input type="file" name="photoA[]" class="form-control" accept=".jpg,.png,.jpeg" />
                     </div>
                     <!-- Submit button -->
                     <!-- article input -->
                     <div class="form-outline mb-4">
-                        <textarea class="form-control" name="textA" id="form4Example3" rows="9" placeholder="Web development is the process of creating, building, and maintaining websites. It involves a combination of programming languages, frameworks, and tools that are used to build and optimize web applications."></textarea>
+                        <textarea class="form-control" name="textA[]" id="form4Example3" rows="9" placeholder="Web development is the process of creating, building, and maintaining websites. It involves a combination of programming languages, frameworks, and tools that are used to build and optimize web applications."></textarea>
                     </div>
-                    <!-- Submit button -->
 
+                    <!-- Add form -->
+                    <div id="dynamicForm"></div>
+                    <!-- Submit button -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button onclick="dynamicForm(`<?php foreach ($dataC as $nameC) { ?>
+                        <option value='<?= $nameC['idC'] ?>'><?= $nameC['name'] ?></option>
+                        <?php } ?>`, <?= $_SESSION['userid'] ?>)" type="button" class="btn btn-warning"> + </button>
                         <button type="submit" name="addA" class="btn btn-primary">Add an article</button>
                     </div>
                 </form>
@@ -171,10 +176,6 @@ $countAD = $show->count("article", "author_id");
     </div>
 
 
-    <!-- <div class="row row-sign row-focus">
-                <div class="col-md-6 left-side"></div>
-                <div class="col-md-6 right-side"></div>
-            </div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="assets/js/script.js"></script>

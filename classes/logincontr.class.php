@@ -15,15 +15,16 @@ class LoginContr extends Login {
     {
         if($this->emptyInput() == false){
             header("location: ../index.php?error=emptyinput");
+            $_SESSION["error"] = "Empty inputs!";
             exit();
         }
 
         $loginSuccessful = $this->getUser($this->email, $this->pwd);
 
         if (!$loginSuccessful) {
-            if ($_SESSION["error"] == "Wrong password.") {
+            if ($_SESSION["error"] == "Wrong password!") {
                 header("location: ../index.php?error=wrongpassword");
-            } else if ($_SESSION["error"] == "User not found.") {
+            } else if ($_SESSION["error"] == "User not found!") {
                 header("location: ../index.php?error=usernotfound");
             }
             exit();

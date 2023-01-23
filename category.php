@@ -31,8 +31,10 @@ $data = $showCategory->select("category", "*", null);
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="#">Categories</a></li>
                     <li class="nav-item"><a class="nav-link" href="dashboard.php">Statistics</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#articleModal">Article</a></li>
-                </ul><button class="btn bg-white me-3" type="button" data-bs-toggle="modal" data-bs-target="#articleModal">Add an article</button><button class="btn btn-dark" type="button">Log Out</button>
+                    <!-- <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#articleModal">Article</a></li> -->
+                </ul>
+                <!-- <button class="btn bg-white me-3" type="button" data-bs-toggle="modal" data-bs-target="#articleModal">Add an article</button> -->
+                <a href="inc/logout.inc.php" class="btn btn-dark" type="button">Log Out</a>
             </div>
         </div>
     </nav>

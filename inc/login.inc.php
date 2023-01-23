@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 if(isset($_POST["submit"])){
     $email = $_POST["email"];
     $pwd = $_POST["pwd"];
@@ -11,5 +11,4 @@ if(isset($_POST["submit"])){
     $login->loginUser();
     header("location: ../dashboard.php");
 }
-
 ?>

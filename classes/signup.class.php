@@ -9,7 +9,7 @@ class Signup extends Db {
         $stmt->bindValue(3, $pwd, PDO::PARAM_STR);
         if(!$stmt->execute()){
             $stmt = null;
-            $_SESSION["error"] = "Failed to insert user.";
+            $_SESSION["serror"] = "Failed to insert user.";
             return false;
         }
         $stmt = null;
@@ -22,12 +22,12 @@ class Signup extends Db {
         $stmt->bindValue(2, $email, PDO::PARAM_STR);
         if(!$stmt->execute()){
             $stmt = null;
-            $_SESSION["error"] = "Failed to check user existence.";
+            $_SESSION["serror"] = "Failed to check user existence.";
             return false;
         }
         if($stmt->rowCount()>0){
             $stmt = null;
-            $_SESSION["error"] = "User already exists.";
+            $_SESSION["serror"] = "User already exists.";
             return false;
         }
         $stmt = null;

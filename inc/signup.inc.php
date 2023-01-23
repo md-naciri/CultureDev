@@ -16,8 +16,6 @@ if(isset($_POST["submit"])){
     if($signup->signupUser() == true){
         header("location: ../index.php?error=none");
     }else{
-        // echo $_SESSION["error"];
-        // unset($_SESSION["error"]);
         header("location: ../index.php");
     }
 }

@@ -19,7 +19,9 @@ session_start();
 </head>
 
 <body>
-    <script> var session = <?php echo json_encode($_SESSION); ?>; </script>
+    <script>
+        var session = <?php echo json_encode($_SESSION); ?>;
+    </script>
     <div class="wrapper">
         <div class="container main">
             <div class="bg-row row row-sign row-focus">
@@ -35,12 +37,12 @@ session_start();
                             <p>“Code Connects Us”</p>
                         </div>
                         <header class="mb-4">Create account</header>
-                        <?php if (isset($_SESSION["error"])) : ?>
+                        <?php if (isset($_SESSION["serror"])) : ?>
                             <div class="alert alert-danger alert-dismissible fade show">
                                 <strong>Wait!</strong>
                                 <?php
-                                echo $_SESSION["error"];
-                                unset($_SESSION["error"]);
+                                echo $_SESSION["serror"];
+                                unset($_SESSION["serror"]);
                                 ?>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
                             </div>
@@ -80,20 +82,18 @@ session_start();
                 <div class="col-md-6 right-side">
                     <div class="input-box">
                         <div class="catchy-txt-2">
-                            <?php
-                            if (isset($_SESSION["userid"])) {
-                            ?>
-                                <a style="text-decoration: none;" href="inc/logout.inc.php">
-                                    <p>“We Believe In Code”</p>
-                                </a>
-                            <?php
-                            } else {
-                            ?>
-                                <p>“Code Connects Us”</p>
-                            <?php
-                            };
-                            ?>
+                            <p>“We Believe In Code”</p>
                         </div>
+                        <?php if (isset($_SESSION["error"])) : ?>
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <strong>Wait!</strong>
+                            <?php
+                            echo $_SESSION["error"];
+                            unset($_SESSION["error"]);
+                            ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
+                        </div>
+                    <?php endif ?>
                         <header class="mb-4">Welcome back</header>
                         <form action="inc/login.inc.php" method="post">
                             <div class="input-field">
@@ -121,4 +121,5 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="assets/js/script.js"></script>
 </body>
+
 </html>

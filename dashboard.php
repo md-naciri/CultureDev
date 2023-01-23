@@ -29,6 +29,8 @@ $countAD = $show->count("article", "author_id");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
     <link rel="shortcut icon" href="assets/img/browser.png" type="image/x-icon">
     <title>CultureDev</title>
@@ -55,7 +57,7 @@ $countAD = $show->count("article", "author_id");
             <div class="p-3 bg-white shadow text-center">
                 <div>
                     <h3 class="fs-3"><?= $countA ?></h3>
-                    <p class="fs-5">Articles</p>
+                    <p class="fs-6">Articles</p>
                 </div>
                 <!-- <i class="fa fa-chart-line fs-1 text-primary border rounded-full secondary-bg p-3"></i> -->
             </div>
@@ -64,7 +66,7 @@ $countAD = $show->count("article", "author_id");
             <div class="p-3 bg-white shadow text-center">
                 <div>
                     <h3 class="fs-3"><?= $countC ?></h3>
-                    <p class="fs-5">Categories</p>
+                    <p class="fs-6">Categories</p>
                 </div>
                 <!-- <i class="fa fa-hand-holding fs-1 text-primary border rounded-full secondary-bg p-3"></i> -->
             </div>
@@ -73,7 +75,7 @@ $countAD = $show->count("article", "author_id");
             <div class="p-3 bg-white shadow text-center">
                 <div>
                     <h3 class="fs-3"><?= $countD ?></h3>
-                    <p class="fs-5">Developers</p>
+                    <p class="fs-6">Developers</p>
                 </div>
                 <!-- <i class="fa fa-gift fs-1 text-primary border rounded-full secondary-bg p-3"></i> -->
             </div>
@@ -82,14 +84,25 @@ $countAD = $show->count("article", "author_id");
             <div class="p-3 bg-white shadow text-center">
                 <div>
                     <h3 class="fs-3"><?= $countAD ?></h3>
-                    <p class="fs-5">Active Developers</p>
+                    <p class="fs-6">Active Developers</p>
                 </div>
                 <!-- <i class="fa fa-hand-holding fs-1 text-primary border rounded-full secondary-bg p-3"></i> -->
             </div>
         </div>
     </div>
+
     <div class="container shadow p-3 my-5 bg-white rounded col-md-8">
-        <table id="dtables" class="table ">
+        <?php if (isset($_SESSION["error"])) : ?>
+            <div class="alert alert-danger alert-dismissible fade show">
+                <strong>Wait!</strong>
+                <?php
+                echo $_SESSION["error"];
+                unset($_SESSION["error"]);
+                ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
+            </div>
+        <?php endif ?>
+        <table id="dtables" class="table">
             <thead>
                 <tr>
                     <th>Picture</th>
@@ -137,14 +150,13 @@ $countAD = $show->count("article", "author_id");
                 <form action="inc/article.inc.php" method="post" enctype="multipart/form-data" class="p-4">
                     <!-- title input -->
                     <div class="form-outline mb-4">
-                        <input type="text" name="titledA[]" class="form-control" placeholder="Web development" />
+                        <input type="text" name="titledA[]" class="form-control" placeholder="Title" />
                     </div>
                     <!-- author input -->
                     <input type="hidden" name="authorA[]" class="form-control" value="<?= $_SESSION["userid"] ?>" />
                     <!-- category input -->
                     <div class="form-outline mb-4">
                         <select name="choice[]" class="form-select" aria-label="Default select example">
-                            <option selected>Choose a category</option>
                             <?php foreach ($dataC as $nameC) { ?>
                                 <option value="<?= $nameC["idC"] ?>"><?= $nameC["name"] ?></option>
                             <?php } ?>
@@ -157,7 +169,13 @@ $countAD = $show->count("article", "author_id");
                     <!-- Submit button -->
                     <!-- article input -->
                     <div class="form-outline mb-4">
-                        <textarea class="form-control" name="textA[]" id="form4Example3" rows="9" placeholder="Web development is the process of creating, building, and maintaining websites. It involves a combination of programming languages, frameworks, and tools that are used to build and optimize web applications."></textarea>
+                        <textarea id="summernote" class="form-control" name="textA[]" id="form4Example3" rows="9" placeholder="Write your article here."></textarea>
+            
+                        <script>
+                            $(document).ready(function() {
+                                $('#summernote').summernote();
+                            });
+                        </script>
                     </div>
 
                     <!-- Add form -->

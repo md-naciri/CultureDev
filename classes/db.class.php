@@ -48,7 +48,7 @@ class Db
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             if($result['COUNT(*)']>0){
                 session_start();
-                $_SESSION["error"] = "Yeddek fih";
+                $_SESSION["error"] = "Cannot delete a category that is related to an article";
             } else {
                 $stmt = $this->connect()->prepare("DELETE FROM $table WHERE $id");
                 $stmt->execute();

@@ -26,8 +26,12 @@ $dataA = $show->select("article", "*", "idA = " . $_SESSION['id1']);
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://parsleyjs.org/src/parsley.css">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+    <script defer src="https://parsleyjs.org/dist/parsley.min.js"></script>
     <link rel="shortcut icon" href="assets/img/browser.png" type="image/x-icon">
     <title>CultureDev</title>
 </head>
@@ -39,7 +43,7 @@ $dataA = $show->select("article", "*", "idA = " . $_SESSION['id1']);
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="category.php">Categories</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Statistics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard.php">Statistics</a></li>
                     <!-- <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#articleModal">Article</a></li> -->
                 </ul>
                 <!-- <button class="btn bg-white me-3" type="button" data-bs-toggle="modal" data-bs-target="#articleModal">Add an article</button> -->
@@ -66,12 +70,12 @@ $dataA = $show->select("article", "*", "idA = " . $_SESSION['id1']);
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Edit an article</h1>
         </div>
-        <b id="error" class="d-none text-center text-danger fs-2"></b>
-        <form action="inc/article.inc.php" method="post" enctype="multipart/form-data" class="p-4">
+
+        <form action="inc/article.inc.php" method="post" enctype="multipart/form-data" class="to-validate p-4" data-parsley-validate>
             <input type="hidden" name="idA" value="<?= $dataA[0]['idA'] ?>">
             <!-- title input -->
             <div class="form-outline mb-4">
-                <input id="titledA" type="text" name="titledA" class="form-control" value="<?= $dataA[0]['title']; ?>" />
+                <input id="titledA" type="text" name="titledA" class="form-control" data-parsley-trigger="keyup" data-parsley-required data-parsley-minlength="3" data-parsley-maxlength="50" value="<?= $dataA[0]['title']; ?>" />
             </div>
             <!-- author input -->
             <input type="hidden" id="authorA" name="authorA" class="form-control" value="<?= $_SESSION["userid"] ?>" />
@@ -90,8 +94,14 @@ $dataA = $show->select("article", "*", "idA = " . $_SESSION['id1']);
 
             <!-- article input -->
             <div class="form-outline mb-4">
-                <textarea class="form-control" id="textA" name="textA" id="form4Example3" rows="9"><?= $dataA[0]['content']; ?></textarea>
+                <textarea id="summernote" class="form-control" id="textA" name="textA" id="form4Example3" rows="9" data-parsley-trigger="keyup" data-parsley-required><?= $dataA[0]['content']; ?></textarea>
+                <script>
+                    $(document).ready(function() {
+                        $('#summernote').summernote();
+                    });
+                </script>
             </div>
+
             <!-- Submit button -->
 
             <div class="modal-footer">
@@ -104,22 +114,7 @@ $dataA = $show->select("article", "*", "idA = " . $_SESSION['id1']);
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="assets/js/script.js"></script>
-    <script>
-        let titledA = document.querySelector("#titledA");
-        let textA = document.querySelector("#textA");
-        
-        if(document.querySelector("#editA")){
-            document.querySelector("#editA").addEventListener('click',(e)=>{              
-            if(textA.value==""  || titledA.value==""){
-                document.querySelector("#error").classList.remove('d-none')
-                document.querySelector("#error").textContent="Wa zmar You must fill all inputs";
-                e.preventDefault();
-             }
-        })
-        }
-        
-        
-    </script>
+
 </body>
 
 </html>

@@ -5,7 +5,7 @@ session_start();
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,8 +13,14 @@ session_start();
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://parsleyjs.org/src/parsley.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+    <script defer src="https://parsleyjs.org/dist/parsley.min.js"></script>
     <link rel="shortcut icon" href="assets/img/browser.png" type="image/x-icon">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <title>CultureDev</title>
 </head>
 
@@ -47,13 +53,13 @@ session_start();
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
                             </div>
                         <?php endif ?>
-                        <form action="inc/signup.inc.php" method="post">
+                        <form action="inc/signup.inc.php" method="post" class="to-validate" data-parsley-validate>
                             <div class="input-field">
                                 <input type="text" class="input mb-3" name="fname" id="fullname" required>
                                 <label for="fullname">Full name</label>
                             </div>
                             <div class="input-field">
-                                <input type="text" class="input mb-3" name="email" id="email" required>
+                                <input type="text" class="input mb-3" name="email" id="email" data-parsley-trigger="keyup" data-parsley-type="email" required>
                                 <label for="email">Email</label>
                             </div>
                             <div class="input-field">
@@ -95,9 +101,9 @@ session_start();
                         </div>
                     <?php endif ?>
                         <header class="mb-4">Welcome back</header>
-                        <form action="inc/login.inc.php" method="post">
+                        <form action="inc/login.inc.php" method="post" class="to-validate" data-parsley-validate>
                             <div class="input-field">
-                                <input type="text" class="input mb-3" name="email" id="email" required>
+                                <input type="text" class="input mb-3" name="email" id="email" data-parsley-trigger="keyup" data-parsley-type="email" required>
                                 <label for="email">Email</label>
                             </div>
                             <div class="input-field">

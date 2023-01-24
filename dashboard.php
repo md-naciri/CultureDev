@@ -28,10 +28,12 @@ $countAD = $show->count("article", "author_id");
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://parsleyjs.org/src/parsley.css">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+    <script defer src="https://parsleyjs.org/dist/parsley.min.js"></script>
     <link rel="shortcut icon" href="assets/img/browser.png" type="image/x-icon">
     <title>CultureDev</title>
 </head>
@@ -51,6 +53,14 @@ $countAD = $show->count("article", "author_id");
             </div>
         </div>
     </nav>
+
+    <div class="mt-5 alert alert-success alert-dismissible fade show col-md-5 text-center mx-auto">
+        <strong>Hello! </strong>
+        <?php
+        echo $_SESSION["username"];
+        ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
+    </div>
 
     <div class="row h-auto mx-auto d-flex col-md-8 my-2 mt-5">
         <div class="col-md-3 col-sm-8 mx-auto">
@@ -147,10 +157,10 @@ $countAD = $show->count("article", "author_id");
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Write an article</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="inc/article.inc.php" method="post" enctype="multipart/form-data" class="p-4">
+                <form action="inc/article.inc.php" method="post" enctype="multipart/form-data" class="to-validate p-4" data-parsley-validate>
                     <!-- title input -->
                     <div class="form-outline mb-4">
-                        <input type="text" name="titledA[]" class="form-control" placeholder="Title" />
+                        <input type="text" name="titledA[]" class="form-control" placeholder="Title" data-parsley-trigger="keyup" data-parsley-required data-parsley-minlength="3" data-parsley-maxlength="50" />
                     </div>
                     <!-- author input -->
                     <input type="hidden" name="authorA[]" class="form-control" value="<?= $_SESSION["userid"] ?>" />
@@ -164,13 +174,13 @@ $countAD = $show->count("article", "author_id");
                     </div>
                     <!-- picture input -->
                     <div class="form-outline mb-4">
-                        <input type="file" name="photoA[]" class="form-control" accept=".jpg,.png,.jpeg" />
+                        <input type="file" name="photoA[]" class="form-control" data-parsley-required accept=".jpg,.png,.jpeg" />
                     </div>
                     <!-- Submit button -->
                     <!-- article input -->
                     <div class="form-outline mb-4">
-                        <textarea id="summernote" class="form-control" name="textA[]" id="form4Example3" rows="9" placeholder="Write your article here."></textarea>
-            
+                        <textarea id="summernote" class="form-control" name="textA[]" id="form4Example3" rows="9" placeholder="Write your article here." data-parsley-trigger="keyup" data-parsley-required></textarea>
+
                         <script>
                             $(document).ready(function() {
                                 $('#summernote').summernote();

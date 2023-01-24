@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (!isset($_SESSION["userid"])) {
+    header("location: index.php");
+    die;
+}
 include "./classes/db.class.php";
 $showCategory = new Db();
 $data = $showCategory->select("category", "*", null);
@@ -8,7 +12,7 @@ $data = $showCategory->select("category", "*", null);
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,8 +21,12 @@ $data = $showCategory->select("category", "*", null);
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://parsleyjs.org/src/parsley.css">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+    <script defer src="https://parsleyjs.org/dist/parsley.min.js"></script>
     <link rel="shortcut icon" href="assets/img/browser.png" type="image/x-icon">
     <title>CultureDev</title>
 </head>
@@ -55,10 +63,10 @@ $data = $showCategory->select("category", "*", null);
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Add a category</h1>
         </div>
-        <form class="p-4" action="inc/category.inc.php" method="post">
+        <form class="p-4 to-validate" action="inc/category.inc.php" method="post" data-parsley-validate>
             <!-- name input -->
             <div class="form-outline mb-4 d-flex">
-                <input type="text" id="form4Example1" name="addedC" class="form-control" placeholder="Add a category" required />
+                <input type="text" id="form4Example1" name="addedC" class="form-control" placeholder="Add a category" data-parsley-trigger="keyup" data-parsley-required />
                 <button type="submit" name="addC" class="btn btn-sm btn-primary rounded m-1"> Add </button>
             </div>
         </form>
@@ -91,7 +99,7 @@ $data = $showCategory->select("category", "*", null);
     </div>
 
     <!-- Modal -->
-    <form action="inc/category.inc.php" method="post">
+    <form action="inc/category.inc.php" method="post" class="to-validate" data-parsley-validate>
         <div class="modal fade" id="cModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -101,7 +109,7 @@ $data = $showCategory->select("category", "*", null);
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="editedC" name="editedC">
-                        <input type="text" id="nameC" name="namedC" class="form-control" placeholder="Enter new category name" />
+                        <input type="text" id="nameC" name="namedC" class="form-control" placeholder="Enter new category name" data-parsley-trigger="keyup" data-parsley-required />
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

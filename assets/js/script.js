@@ -68,3 +68,4 @@ function dynamicForm(categories, author_id) {
 function hideDynamicForm(){
     document.querySelector("#dynamicForm").innerHTML='';
 }
+$('.to-validate').parsley();

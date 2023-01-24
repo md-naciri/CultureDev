@@ -30,8 +30,6 @@ $countAD = $show->count("article", "author_id");
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://parsleyjs.org/src/parsley.css">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
     <script defer src="https://parsleyjs.org/dist/parsley.min.js"></script>
     <link rel="shortcut icon" href="assets/img/browser.png" type="image/x-icon">
@@ -179,17 +177,13 @@ $countAD = $show->count("article", "author_id");
                     <!-- Submit button -->
                     <!-- article input -->
                     <div class="form-outline mb-4">
-                        <textarea id="summernote" class="form-control" name="textA[]" id="form4Example3" rows="9" placeholder="Write your article here." data-parsley-trigger="keyup" data-parsley-required></textarea>
-
-                        <script>
-                            $(document).ready(function() {
-                                $('#summernote').summernote();
-                            });
-                        </script>
+                        <textarea class="form-control" name="textA[]" id="form4Example3" rows="9" placeholder="Write your article here." data-parsley-trigger="keyup" data-parsley-required></textarea>
                     </div>
 
                     <!-- Add form -->
-                    <div id="dynamicForm"></div>
+                    <div id="dynamicForm">
+
+                    </div>
                     <!-- Submit button -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -202,8 +196,6 @@ $countAD = $show->count("article", "author_id");
             </div>
         </div>
     </div>
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="assets/js/script.js"></script>

@@ -56,17 +56,6 @@ class Db
         }
     }
 
-    // public function select($table, $rows, $where)
-    // {
-    //     if ($where != null) {
-    //         $stmt = $this->connect()->prepare("SELECT $rows FROM $table WHERE id=?");
-    //         $stmt->execute([$where]);
-    //     } else {
-    //         $stmt = $this->connect()->prepare("SELECT $rows FROM $table");
-    //         $stmt->execute();
-    //     }
-    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // }
 
     public function select($table, $rows, $where)
     {

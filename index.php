@@ -28,7 +28,7 @@ session_start();
     </script>
     <div class="wrapper">
         <div class="container main">
-            <div class="bg-row row row-sign row-focus">
+            <div class="bg-row row row-sign">
                 <div class="col-md-6 left-side">
                     <img src="assets/img/justwhite.png" alt="">
                     <div class="catchy-txt">
@@ -76,7 +76,7 @@ session_start();
                     </div>
                 </div>
             </div>
-            <div class="bg-row row row-log row-focus">
+            <div class="bg-row row row-log">
                 <div class="col-md-6 left-side">
                     <img src="assets/img/justwhite.png" alt="">
                     <div class="catchy-txt">

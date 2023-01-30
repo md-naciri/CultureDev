@@ -1,14 +1,4 @@
-// $(document).ready(function () {
-//     $(".row-sign").hide();
-//     $("#go-sign").click(function () {
-//         $(".row-log").hide();
-//         $(".row-sign").fadeToggle(300);
-//     })
-//     $("#go-log").click(function () {
-//         $(".row-sign").hide();
-//         $(".row-log").fadeToggle(300);
-//     })
-// });
+
 $(document).ready(function () {
     if (session.serror) {
         $(".row-log").hide();
@@ -60,7 +50,8 @@ function dynamicForm(categories, author_id) {
     <!-- article input -->
     <div class="form-outline mb-4">
         <textarea class="form-control" name="textA[]" id="form4Example3" rows="9" placeholder="Write your article here." data-parsley-trigger="keyup" data-parsley-required></textarea>
-    </div>
+        </div>
+        <button class='btn btn-danger' onclick="deleteForm(this)">Delete</button>
     `
 }
 
@@ -69,3 +60,9 @@ function hideDynamicForm() {
     document.querySelector("#dynamicForm").innerHTML = '';
 }
 $('.to-validate').parsley();
+
+
+function deleteForm(element){
+    element.parentNode.remove();
+
+}

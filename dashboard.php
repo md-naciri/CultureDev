@@ -65,7 +65,7 @@ $countAD = $show->count("article", "author_id");
             <div class="p-3 bg-white shadow text-center">
                 <div>
                     <h3 class="fs-3"><?= $countA ?></h3>
-                    <p class="fs-6">Articles</p>
+                    <p>Articles</p>
                 </div>
                 <!-- <i class="fa fa-chart-line fs-1 text-primary border rounded-full secondary-bg p-3"></i> -->
             </div>
@@ -74,7 +74,7 @@ $countAD = $show->count("article", "author_id");
             <div class="p-3 bg-white shadow text-center">
                 <div>
                     <h3 class="fs-3"><?= $countC ?></h3>
-                    <p class="fs-6">Categories</p>
+                    <p>Categories</p>
                 </div>
                 <!-- <i class="fa fa-hand-holding fs-1 text-primary border rounded-full secondary-bg p-3"></i> -->
             </div>
@@ -83,7 +83,7 @@ $countAD = $show->count("article", "author_id");
             <div class="p-3 bg-white shadow text-center">
                 <div>
                     <h3 class="fs-3"><?= $countD ?></h3>
-                    <p class="fs-6">Developers</p>
+                    <p>Developers</p>
                 </div>
                 <!-- <i class="fa fa-gift fs-1 text-primary border rounded-full secondary-bg p-3"></i> -->
             </div>
@@ -91,8 +91,8 @@ $countAD = $show->count("article", "author_id");
         <div class="col-md-3 col-sm-8 mx-auto">
             <div class="p-3 bg-white shadow text-center">
                 <div>
-                    <h3 class="fs-3"><?= $countAD ?></h3>
-                    <p class="fs-6">Active Developers</p>
+                    <h3 class="fs-3"><?= $countAD ?>/<?= $countD ?></h3>
+                    <p class="fs-6">Authors</p>
                 </div>
                 <!-- <i class="fa fa-hand-holding fs-1 text-primary border rounded-full secondary-bg p-3"></i> -->
             </div>
